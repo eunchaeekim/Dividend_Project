@@ -1,6 +1,6 @@
 spring:
   application:
-    name: jaehyun-dividend
+    name: dividend
 
   h2:
     console:
