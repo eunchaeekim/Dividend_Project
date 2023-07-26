@@ -4,8 +4,10 @@ import com.example.dividend.model.Company;
 import com.example.dividend.scraper.YahooFinanceScraper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class DividendApplication {
 
 	public static void main(String[] args) {
@@ -17,13 +19,13 @@ public class DividendApplication {
 		var result = scraper.scrapCompanyByTicker("MMM");
 		System.out.println(result); // Company(ticker=MMM, name=3M Company)
 		 */
-
+		/*
 		AutoComplete autoComplete = new AutoComplete();
 		AutoComplete autoComplete1 = new AutoComplete();
 
 		autoComplete.add("hello");
 		System.out.println(autoComplete.get("hello"));
 		System.out.println(autoComplete1.get("hello"));
-
+		 */
 	}
 }
