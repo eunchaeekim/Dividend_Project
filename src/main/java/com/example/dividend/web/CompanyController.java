@@ -22,8 +22,8 @@ public class CompanyController {
         if (ObjectUtils.isEmpty(ticker)) {
             throw new RuntimeException("ticker is empty");
         }
-
         Company company = this.companyService.save(ticker);
+        this.companyService.addAutocompleteKeyword(company.getName()); //회사를 저장할 때 마다 tire명이 저장됨
 
         return ResponseEntity.ok(company);
     }
@@ -33,5 +33,13 @@ public class CompanyController {
         Page<CompanyEntity> companies = this.companyService.getAllCompany(pageable);
         return ResponseEntity.ok(companies);
     }
+
+    @GetMapping("/autocomplete")
+    public ResponseEntity<?> autocomplete(@RequestParam String keyword) {
+        var result = this.companyService.getCompanyNamesByKeyword(keyword); //트라이에 따로 저장안해도됨 but db조회
+//        var result = this.companyService.autocomplete(keyword);
+        return ResponseEntity.ok(result);
+    }
+
 
 }
