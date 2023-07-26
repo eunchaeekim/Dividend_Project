@@ -8,7 +8,9 @@ import com.example.dividend.persist.repository.CompanyRepository;
 import com.example.dividend.persist.repository.DividendRepository;
 import com.example.dividend.scraper.Scraper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class CompanyService {
-
+    private final Trie trie;
     private final Scraper yahooFinanceScraper;
 
     private final CompanyRepository companyRepository;
@@ -66,4 +68,28 @@ public class CompanyService {
         this.dividendRepository.saveAll(dividendEntityList);
         return company;
     }
+    public void addAutocompleteKeyword(String keyword) {
+        this.trie.put(keyword, null);
+    }
+
+    // this.trie.prefixMap(keyword)는 Trie 자료구조에서 주어진 keyword와 일치하는 모든 접두사를 검색
+    // keySet()은 prefixMap 메서드로부터 반환된 Map의 모든 키(접두사와 일치하는 단어들)를 가져옴
+    // .stream().collect(Collectors.toList())는 Java 스트림(Stream)을 이용하여 키들을 리스트로 변환
+    public List<String> autocomplete(String keyword) {
+        return (List<String>) this.trie.prefixMap(keyword).keySet()
+                .stream().collect(Collectors.toList());
+    }
+
+    public void deleteAutocompleteKeyword(String keyword) {
+        this.trie.remove(keyword);
+    }
+
+    public List<String> getCompanyNamesByKeyword(String keyword) {
+        Pageable limit = PageRequest.of(0, 10);
+        Page<CompanyEntity> companyEntities = this.companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
+        return companyEntities.stream()
+                .map(e -> e.getName())
+                .collect(Collectors.toList());
+    }
+
 }
