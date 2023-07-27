@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
     boolean existsByTicker(String ticker);
     Optional<CompanyEntity> findByName(String name); //회사 이름으로 찾기
+    Optional<CompanyEntity> findByTicker(String ticker); //회사 ticker명으로으로 찾을 때 사용
     Page<CompanyEntity> findByNameStartingWithIgnoreCase(String s, Pageable pageable);
 }
