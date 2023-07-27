@@ -1,5 +1,6 @@
 package com.example.dividend.service;
 
+import com.example.dividend.exception.impl.AlreadyExistUserException;
 import com.example.dividend.model.Auth;
 import com.example.dividend.persist.entity.MemberEntity;
 import com.example.dividend.persist.repository.MemberRepository;
@@ -24,7 +25,7 @@ public class MemberService  {
     public MemberEntity register(Auth.SignUp member) { //회원가입(중복확인)
         boolean exists = this.memberRepository.existsByUsername(member.getUsername());
         if (exists) { //사용중이면
-            throw new RuntimeException("이미 사용 중인 아이디 입니다.");
+            throw new AlreadyExistUserException();
         }
 
         //사용중 아니면 비밀번호 암호화 해서 저성
