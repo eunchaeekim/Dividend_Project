@@ -9,7 +9,6 @@ import com.example.dividend.persist.repository.CompanyRepository;
 import com.example.dividend.persist.repository.DividendRepository;
 import com.example.dividend.scraper.Scraper;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
