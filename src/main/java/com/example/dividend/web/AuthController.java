@@ -30,7 +30,7 @@ public class AuthController {
         //아이디와 패스워드 일치하는지 확인 후 토큰 생성
         var member = this.memberService.authenticate(request);
         var token = this.tokenProvider.generateToken(member.getUsername(), member.getRoles());
-       // log.info("user login -> " + request.getUsername()); //어떤 사용자가 로그인 하는지 확인
+        log.info("user login -> " + request.getUsername()); //어떤 사용자가 로그인 하는지 확인
         return ResponseEntity.ok(token);
     }
 }

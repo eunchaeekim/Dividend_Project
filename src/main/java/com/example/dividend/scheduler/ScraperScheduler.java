@@ -11,10 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 
 import java.util.List;
 
@@ -51,6 +49,7 @@ public class ScraperScheduler {
                         boolean exists = this.dividendRepository.existsByCompanyIdAndDate(e.getCompanyId(), e.getDate());
                         if (!exists) { //스트림의 각 요소에 대해 반복적으로 수행되는 로직을 정의
                             this.dividendRepository.save(e);
+                            log.info("insert new dividend -> " + e.toString());
                         }
                     });
 
